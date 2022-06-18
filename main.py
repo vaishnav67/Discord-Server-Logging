@@ -79,23 +79,26 @@ def PostPastebinAPI(args):
 
 @tasks.loop(hours=12)
 async def packup():
-    print(packup.current_loop)
-    table_to_csv(connection)
-    clean_table(connection)
-    dt = datetime.now()
-    current=str(dt.strftime("%X %d-%m-%Y"))
-    DEVKEY=os.getenv('DEVKEY')
-    with open("output.csv",encoding='utf8') as file:
-        code=file.read()+"\n"
-    Post = PostPastebinAPI({
-        "api_dev_key": DEVKEY,
-        "api_option": "paste",
-        "api_paste_expire_date": "1D",
-        "api_paste_code": code,
-        "api_paste_name": current,
-        "api_paste_private": "2"
-    })
-    print(Post)
+    #print(packup.current_loop)
+    if(packup.current_loop!=0):
+        table_to_csv(connection)
+        clean_table(connection)
+        dt = datetime.now()
+        current=str(dt.strftime("%X %d-%m-%Y"))
+        PASTEBIN_DEVKEY=os.getenv('PASTEBIN_DEVKEY')
+        PASTEBIN_USER_KEY=os.getenv('PASTEBIN_USER_KEY')
+        with open("output.csv",encoding='utf8') as file:
+            code=file.read()+"\n"
+        Post = PostPastebinAPI({
+            "api_dev_key": PASTEBIN_DEVKEY,
+            "api_user_key": PASTEBIN_USER_KEY,
+            "api_option": "paste",
+            "api_paste_expire_date": "1D",
+            "api_paste_code": code,
+            "api_paste_name": current,
+            "api_paste_private": "2"
+        })
+        #print(Post)
 
 packup.start()
 
