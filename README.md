@@ -17,4 +17,4 @@
 TOKEN, PASTEBIN_DEVKEY, PASTEBIN_USER_KEY, GUILDID, OWNERID
 
 # To-do
-2. Code simplification (which means never)
+1. Code simplification (which means never)
